@@ -1,15 +1,15 @@
 package ArvoreAVL;
 
-public class Tree<T extends Comparable<T>> {
-    private Node<T> root;
+public class Tree {
+    private Node root;
     private boolean flag;
     public Tree(){
         root = null;
         flag = true;
     }
 
-    private Node<T> simpleLeftRotation(Node<T> root){
-        Node<T> subTree = root.getRight();
+    private Node simpleLeftRotation(Node root){
+        Node subTree = root.getRight();
         if(subTree.getLeft() != null){
             root.setRight(subTree.getLeft());
             subTree.setLeft(root);
@@ -23,13 +23,13 @@ public class Tree<T extends Comparable<T>> {
         return subTree;
     }
 
-    private Node<T> doubleLeftRotation(Node<T> root){
+    private Node doubleLeftRotation(Node root){
         root.setRight(simpleRightRotation(root.getRight()));
         return simpleLeftRotation(root);
     }
 
-    private Node<T> simpleRightRotation(Node<T> root){
-        Node<T> subTree = root.getLeft();
+    private Node simpleRightRotation(Node root){
+        Node subTree = root.getLeft();
         if(subTree.getRight() != null){
             root.setLeft(subTree.getRight());
             subTree.setRight(root);
@@ -43,17 +43,17 @@ public class Tree<T extends Comparable<T>> {
         return subTree;
     }
 
-    private Node<T> doubleRightRotation(Node<T> root){
+    private Node doubleRightRotation(Node root){
         root.setLeft(simpleLeftRotation(root.getLeft()));
         return simpleRightRotation(root);
     }
 
-    private void defineFactor(Node<T> root){
+    private void defineFactor(Node root){
         root.setFactor(leftHeight(root) - rightHeight(root));
     }
 
-    public void add(T data){
-        Node<T> node = new Node(data);
+    public void add(String data){
+        Node node = new Node(data);
         if(root == null){
             root = node;
         }
@@ -62,7 +62,7 @@ public class Tree<T extends Comparable<T>> {
             flag = true;
         }
     }
-    private Node<T> add(T data, Node<T> root){
+    private Node add(String data, Node root){
         if(data.compareTo(root.getData()) < 0){
             if(root.getLeft() == null){
                 root.setLeft(new Node(data));
@@ -119,7 +119,7 @@ public class Tree<T extends Comparable<T>> {
         return root;
     }
 
-    private Node<T> remove(T data, Node<T> root, Node<T> parent){
+    private Node remove(String data, Node root, Node parent){
         if(root.getData().equals(data)){
             if(root.getLeft() == null && root.getRight() == null){
                 if(!root.equals(this.root)){
@@ -252,7 +252,7 @@ public class Tree<T extends Comparable<T>> {
         return root;
     }
 
-    public void remove(T data){
+    public void remove(String data){
         if(root != null){
             //remove(data, root, null);
             root = remove(data, root, null);
@@ -264,14 +264,14 @@ public class Tree<T extends Comparable<T>> {
         root = null;
     }
 
-    public boolean search(T data){
+    public boolean search(String data){
         if(root == null){
             return false;
         }
         return search(data, root);
     }
 
-    private boolean search(T data, Node<T> root){
+    private boolean search(String data, Node root){
         if(data.equals(root.getData())){
             return true;
         }
@@ -296,29 +296,29 @@ public class Tree<T extends Comparable<T>> {
         return false;
     }
 
-    private T min(Node<T> root){
+    private String min(Node root){
         if(root.getLeft() == null){
             return root.getData();
         }
         return min(root.getLeft());
     }
 
-    private T max(Node<T> root){
+    private String max(Node root){
         if(root.getRight() == null){
             return root.getData();
         }
         return max(root.getRight());
     }
 
-    public T min(){
+    public String min(){
         return min(root);
     }
 
-    public T max(){
+    public String max(){
         return max(root);
     }
 
-    private Node<T> get(T data, Node<T> root){
+    private Node get(String data, Node root){
         if(root != null){
             if(root.getData().equals(data)){
                 return root;
@@ -339,11 +339,11 @@ public class Tree<T extends Comparable<T>> {
         return null;
     }
 
-    private Node<T> get(T data){
+    private Node get(String data){
         return get(data, root);
     }
 
-    private int height(Node<T> root, int left, int right){
+    private int height(Node root, int left, int right){
         if(root.getLeft() != null){
             left = height(root.getLeft(), ++left, right);
         }
@@ -353,7 +353,7 @@ public class Tree<T extends Comparable<T>> {
         return Math.max(left, right);
     }
 
-    private int height(Node<T> root){
+    private int height(Node root){
         int left;
         int right;
         if(root != null) {
@@ -379,11 +379,11 @@ public class Tree<T extends Comparable<T>> {
         return -1;
     }
 
-    private int leftHeight(Node<T> root){
+    private int leftHeight(Node root){
         return height(root.getLeft()) + 1;
     }
 
-    private int rightHeight(Node<T> root){
+    private int rightHeight(Node root){
         return height(root.getRight()) + 1;
     }
 
@@ -403,7 +403,28 @@ public class Tree<T extends Comparable<T>> {
         return root == null;
     }
 
-    private String preOrdem(Node<T> root, String s){
+    private String hash(String data){
+        return data.replace(data.charAt(data.length() - 1), data.charAt(0));
+    }
+
+    private String defineHash(Node root){
+        if(root.getLeft() != null && root.getRight() != null){
+            root.setHash(hash(defineHash(root.getLeft()) + defineHash(root.getRight())));
+        }
+        else if(root.getLeft() != null && root.getRight() == null){
+            root.setHash(hash(root.getHash() + defineHash(root.getLeft())));
+        }
+        else if(root.getLeft() == null && root.getRight() != null){
+            root.setHash(hash(root.getHash() + defineHash(root.getRight())));
+        }
+        return root.getHash();
+    }
+
+    public String getHashCode(){
+        return defineHash(root);
+    }
+
+    private String preOrdem(Node root, String s){
         s += root.getData() + " ";
         if(root.getLeft() != null){
             s = preOrdem(root.getLeft(), s);
@@ -414,7 +435,7 @@ public class Tree<T extends Comparable<T>> {
         return s;
     }
 
-    private String emOrdem(Node<T> root, String s){
+    private String emOrdem(Node root, String s){
         if(root.getLeft() != null){
             s = emOrdem(root.getLeft(), s);
         }
@@ -425,7 +446,7 @@ public class Tree<T extends Comparable<T>> {
         return s;
     }
 
-    private String posOrdem(Node<T> root, String s){
+    private String posOrdem(Node root, String s){
         if(root.getLeft() != null){
             s = posOrdem(root.getLeft(), s);
         }
@@ -436,7 +457,7 @@ public class Tree<T extends Comparable<T>> {
         return s;
     }
 
-    private String toString(Node<T> root, String s){
+    private String toString(Node root, String s){
         //Pré Ordem:
         //s += root.getData();
         if(root.getLeft() != null){
@@ -444,7 +465,7 @@ public class Tree<T extends Comparable<T>> {
         }
         //Em Ordem:
         //s += root.getData() + ": Altura Esquerda: " + leftHeight(root) +  " Altura Direita:  " + rightHeight(root) + "\n";
-        s += root.getData() + " Fator: " + root.getFactor() + "\n";
+        s += root.getData() + " ";
         if(root.getRight() != null){
             s = toString(root.getRight(), s);
         }
@@ -463,10 +484,6 @@ public class Tree<T extends Comparable<T>> {
 
     public String posOrdem(){
         return posOrdem(root, "");
-    }
-
-    public T getRoot(){
-        return root.getData();
     }
 
     @Override

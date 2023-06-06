@@ -1,18 +1,21 @@
 package ArvoreAVL;
 
-public class Node <T extends Comparable<T>>{
-    private T data;
+public class Node{
+    private String data;
 
-    private Node<T> left;
+    private String hash;
 
-    private Node<T> right;
+    private Node left;
+
+    private Node right;
 
     private int factor;
 
-    public Node(T data){
+    public Node(String data){
         this.data = data;
         left = null;
         right = null;
+        hash();
         factor = 0;
     }
 
@@ -24,15 +27,19 @@ public class Node <T extends Comparable<T>>{
         factor--;
     }
 
-    public T getData(){
+    public String getData(){
         return data;
     }
 
-    public Node<T> getLeft(){
+    public String getHash(){
+        return hash;
+    }
+
+    public Node getLeft(){
         return left;
     }
 
-    public Node<T> getRight(){
+    public Node getRight(){
         return right;
     }
 
@@ -40,20 +47,28 @@ public class Node <T extends Comparable<T>>{
         return factor;
     }
 
-    public void setData(T data){
+    public void setData(String data){
         this.data = data;
     }
 
-    public void setLeft(Node<T> left){
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public void setLeft(Node left){
         this.left = left;
     }
 
-    public void setRight(Node<T> right){
+    public void setRight(Node right){
         this.right = right;
     }
 
     public void setFactor(int factor){
         this.factor = factor;
+    }
+
+    private void hash(){
+        hash = data.replace(data.charAt(data.length() - 1), data.charAt(0));
     }
 
 }
