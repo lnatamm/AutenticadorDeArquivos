@@ -1,5 +1,5 @@
 package ArvoreAVL;
-
+import java.security.*;
 public class Node{
     private String data;
 
@@ -15,7 +15,7 @@ public class Node{
         this.data = data;
         left = null;
         right = null;
-        hash();
+        sha1();
         factor = 0;
     }
 
@@ -67,8 +67,32 @@ public class Node{
         this.factor = factor;
     }
 
-    private void hash(){
-        hash = data.replace(data.charAt(data.length() - 1), data.charAt(0));
+    private void sha1(){
+        try {
+            // Cria uma instância do algoritmo de criptografia SHA1
+            MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
+
+            // Converte a String em bytes
+            byte[] dataBytes = data.getBytes();
+
+            // Calcula o hash SHA1 dos bytes
+            byte[] sha1Hash = sha1.digest(dataBytes);
+
+            // Converte o hash em uma representação hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : sha1Hash) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            // Retorna a representação hexadecimal do hash
+            data = hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return;
+        }
     }
 
 }

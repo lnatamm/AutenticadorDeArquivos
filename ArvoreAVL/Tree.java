@@ -1,5 +1,5 @@
 package ArvoreAVL;
-
+import java.security.*;
 public class Tree {
     private Node root;
     private boolean flag;
@@ -403,19 +403,44 @@ public class Tree {
         return root == null;
     }
 
-    private String hash(String data){
-        return data.replace(data.charAt(data.length() - 1), data.charAt(0));
+    private String sha1(String data){
+        try {
+            // Cria uma instância do algoritmo de criptografia SHA1
+            MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
+
+            // Converte a String em bytes
+            byte[] dataBytes = data.getBytes();
+
+            // Calcula o hash SHA1 dos bytes
+            byte[] sha1Hash = sha1.digest(dataBytes);
+
+            // Converte o hash em uma representação hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : sha1Hash) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            // Retorna a representação hexadecimal do hash
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private String defineHash(Node root){
         if(root.getLeft() != null && root.getRight() != null){
-            root.setHash(hash(defineHash(root.getLeft()) + defineHash(root.getRight())));
+            root.setHash(sha1(defineHash(root.getLeft()) + defineHash(root.getRight())));
         }
         else if(root.getLeft() != null && root.getRight() == null){
-            root.setHash(hash(root.getHash() + defineHash(root.getLeft())));
+            root.setHash(sha1(root.getHash() + defineHash(root.getLeft())));
         }
         else if(root.getLeft() == null && root.getRight() != null){
-            root.setHash(hash(root.getHash() + defineHash(root.getRight())));
+            root.setHash(sha1(root.getHash() + defineHash(root.getRight())));
         }
         return root.getHash();
     }
