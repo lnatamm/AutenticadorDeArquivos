@@ -78,7 +78,7 @@ public class Node{
             // Calcula o hash SHA1 dos bytes
             byte[] sha1Hash = sha1.digest(dataBytes);
 
-            // Converte o hash em uma representação hexadecimal
+            // Converte o hash numa representação hexadecimal
             StringBuilder hexString = new StringBuilder();
             for (byte b : sha1Hash) {
                 String hex = Integer.toHexString(0xFF & b);
@@ -89,9 +89,9 @@ public class Node{
             }
 
             // Retorna a representação hexadecimal do hash
-            data = hexString.toString();
+            hash = hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            return;
+            System.out.println();
         }
     }
 
