@@ -198,7 +198,7 @@ public class Tree {
 
     private String defineHash(Node root){
         if(root.getLeft() != null && root.getRight() != null){
-            root.setHash(sha1(defineHash(root.getLeft()) + defineHash(root.getRight())));
+            root.setHash(sha1(root.getHash() + defineHash(root.getLeft()) + defineHash(root.getRight())));
         }
         else if(root.getLeft() != null && root.getRight() == null){
             root.setHash(sha1(root.getHash() + defineHash(root.getLeft())));
