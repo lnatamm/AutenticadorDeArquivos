@@ -2,19 +2,8 @@ package Programa;
 import ArvoreAVL.Tree;
 import java.io.*;
 import java.util.Scanner;
-import java.util.Timer;
 
 public class Main {
-
-    public static void delay(long milliSecs){
-        Timer timer = new Timer();
-        try {
-            timer.wait(milliSecs);
-        }
-        catch (InterruptedException e){
-            return;
-        }
-    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -33,12 +22,14 @@ public class Main {
                     while (reader.hasNextLine()){
                         tree.add(reader.nextLine());
                     }
+                    tree.add(Long.toString(original.lastModified()));
                     String originalHash = tree.getHashCode();
                     reader = new Scanner(testCase);
                     tree.clear();
                     while (reader.hasNextLine()){
                         tree.add(reader.nextLine());
                     }
+                    tree.add(Long.toString(testCase.lastModified()));
                     String testCaseHash = tree.getHashCode();
                     if(originalHash.equals(testCaseHash)){
                         System.out.println("O arquivo é original");
