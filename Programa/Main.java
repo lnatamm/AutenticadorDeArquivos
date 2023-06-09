@@ -12,10 +12,10 @@ public class Main {
             Tree tree = new Tree();
             System.out.println("Qual o primeiro arquivo que deseja abrir?");
             String nomeArquivo = sc.next();
-            File original = new File(System.getProperty("user.dir") + "\\Arquivo\\" + nomeArquivo + ".txt");
+            File original = new File(System.getProperty("user.dir") + "/Arquivo/" + nomeArquivo + ".txt");
             System.out.println("Qual o segundo arquivo que deseja abrir?");
             nomeArquivo = sc.next();
-            File testCase = new File(System.getProperty("user.dir") + "\\Arquivo\\" + nomeArquivo + ".txt");
+            File testCase = new File(System.getProperty("user.dir") + "/Arquivo/" + nomeArquivo + ".txt");
             try {
                 if (!(original.createNewFile() || testCase.createNewFile())) {
                     Scanner reader = new Scanner(original);
