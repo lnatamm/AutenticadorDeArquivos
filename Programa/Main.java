@@ -12,7 +12,6 @@ public class Main {
             while (reader.hasNextLine()) {
                 tree.add(reader.nextLine());
             }
-            tree.add(Long.toString(file.lastModified()));
             return tree.getHashCode();
         }
         catch (FileNotFoundException e){
