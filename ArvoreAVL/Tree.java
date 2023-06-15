@@ -99,7 +99,7 @@ public class Tree {
                 }
             }
         }
-        //balanceamento
+
         if(root.getFactor() >= 2){
             if(root.getLeft().getFactor() >= 0){
                 root = simpleRightRotation(root);
@@ -169,16 +169,12 @@ public class Tree {
 
     private String sha1(String data){
         try {
-            // Cria uma instância do algoritmo de criptografia SHA1
             MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
 
-            // Converte a String em bytes
             byte[] dataBytes = data.getBytes();
 
-            // Calcula o hash SHA1 dos bytes
             byte[] sha1Hash = sha1.digest(dataBytes);
 
-            // Converte o hash em uma representação hexadecimal
             StringBuilder hexString = new StringBuilder();
             for (byte b : sha1Hash) {
                 String hex = Integer.toHexString(0xFF & b);
@@ -188,7 +184,6 @@ public class Tree {
                 hexString.append(hex);
             }
 
-            // Retorna a representação hexadecimal do hash
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -247,19 +242,15 @@ public class Tree {
     }
 
     private String toString(Node root, String s){
-        //Pré Ordem:
-        //s += root.getData();
         if(root.getLeft() != null){
             s = toString(root.getLeft(), s);
         }
-        //Em Ordem:
-        //s += root.getData() + ": Altura Esquerda: " + leftHeight(root) +  " Altura Direita:  " + rightHeight(root) + "\n";
+
         s += root.getData() + " ";
         if(root.getRight() != null){
             s = toString(root.getRight(), s);
         }
-        //Pós Ordem:
-        //s += root.getData();
+
         return s;
     }
 

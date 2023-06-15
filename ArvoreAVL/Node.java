@@ -69,16 +69,12 @@ public class Node{
 
     private void sha1(){
         try {
-            // Cria uma instância do algoritmo de criptografia SHA1
             MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
 
-            // Converte a String em bytes
             byte[] dataBytes = data.getBytes();
 
-            // Calcula o hash SHA1 dos bytes
             byte[] sha1Hash = sha1.digest(dataBytes);
 
-            // Converte o hash numa representação hexadecimal
             StringBuilder hexString = new StringBuilder();
             for (byte b : sha1Hash) {
                 String hex = Integer.toHexString(0xFF & b);
@@ -87,8 +83,7 @@ public class Node{
                 }
                 hexString.append(hex);
             }
-
-            // Retorna a representação hexadecimal do hash
+            
             hash = hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println();
