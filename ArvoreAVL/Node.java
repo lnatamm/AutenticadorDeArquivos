@@ -27,6 +27,14 @@ public class Node{
         factor--;
     }
 
+    public void incFactor(int i){
+        factor+=i;
+    }
+
+    public void decFactor(int i){
+        factor-=i;
+    }
+
     public String getData(){
         return data;
     }
@@ -83,7 +91,7 @@ public class Node{
                 }
                 hexString.append(hex);
             }
-            
+
             hash = hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println();

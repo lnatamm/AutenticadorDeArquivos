@@ -81,7 +81,7 @@ public class Tree {
                 }
             }
         }
-        else if(data.compareTo(root.getData()) > 0){
+        else if(data.compareTo(root.getData()) >= 0){
             if(root.getRight() == null){
                 root.setRight(new Node(data));
                 root.decFactor();
